@@ -109,8 +109,12 @@
 
         // --- CONFIGURACIÓN ---
         const ADMIN_PASSWORD = 'proyectouno'; // Cambia esta clave por una más segura
-        const TARGET_LATITUDE = 21.04789330834951; // Reemplazar con la latitud deseada
-        const TARGET_LONGITUDE = -89.6443475074322; // Reemplazar con la longitud deseada
+        
+        // ***** PASO IMPORTANTE: ACTUALIZA ESTAS COORDENADAS *****
+        const TARGET_LATITUDE = 21.04789330834951; // Reemplazar con la latitud de tu ubicación exacta
+        const TARGET_LONGITUDE = -89.6169; // Reemplazar con la longitud de tu ubicación exacta
+        // *********************************************************
+
         const MAX_DISTANCE_METERS = 500; // 500 metros de radio
         
         // --- INICIALIZACIÓN DE FIREBASE ---
@@ -159,7 +163,6 @@
 
         async function initializeAuth() {
             try {
-                // Para una app pública, signInAnonymously es la opción correcta.
                 const userCredential = await signInAnonymously(auth);
                 currentUser = userCredential.user;
                 console.log("Authentication successful:", currentUser.uid);
@@ -243,7 +246,8 @@
                             showMessage('No se pudo registrar la asistencia. Inténtalo de nuevo.', 'error');
                         }
                     } else {
-                        showMessage(`Estás fuera del rango permitido. Distancia: ${Math.round(distance)}m.`, 'error');
+                        // ¡CAMBIO IMPORTANTE! Ahora el error te muestra la ubicación detectada.
+                        showMessage(`Estás fuera del rango permitido. Distancia: ${Math.round(distance)}m. (Tu ubicación detectada: ${latitude.toFixed(6)}, ${longitude.toFixed(6)})`, 'error');
                     }
                     setButtonLoading(false);
                 },
